@@ -50,7 +50,7 @@ public class SuffixTreeAppl {
 				
 					if (next == null) {
 						//task1Info.setPos(-1);
-						return task1Info;
+						break;
 					}
 					else {
 						j = current.getLeftLabel() + 1; //next char
