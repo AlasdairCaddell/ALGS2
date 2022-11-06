@@ -44,7 +44,7 @@ public class Main {
 				if(task1.getPos()<0) {
 					System.out.println("Search string \""+args[2]+"\" not found in "+args[1] );
 				}else {
-					System.out.println("Search string \""+args[2]+"\" found in "+args[1] );
+					System.out.println("Search string \""+args[2]+"\" occurs at position"+task1.getPos()+"of "+args[1] );
 
 				}
 			case "SearchAll": {
