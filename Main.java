@@ -87,21 +87,26 @@ public class Main {
 					SuffixTree tree3 = new SuffixTree(s3);
 					SuffixTreeAppl appl3 = new SuffixTreeAppl(tree3);
 					Task3Info task3=appl3.traverseForLrs();
-					
-					
-					System.out.println("An LRS in "+args[1]+" is \"");
 					int len3 =task3.getLen();
 					int pos13 = task3.getPos1();
-					for(int i=0;i<len3;i++) {
-						System.out.print((char)s3[pos13+i]);
+					
+					
+					if(len3<=0) {
+						System.out.println("No LRS in "+args[1]);
 					}
-					System.out.print("\"\n");
+					else {
+						System.out.print("An LRS in "+args[1]+" is \"");
+				
+						for(int i=0;i<len3;i++) {
+							System.out.print((char)s3[pos13+i]);
+						}
+						System.out.print("\"\n");
 					
-					System.out.println("Its length is "+len3);
-					System.out.println("Starting position of one occurence is "+pos13);
-					System.out.println("Starting position of another occurence is "+task3.getPos2());
-					
-					break;
+						System.out.println("Its length is "+len3);
+						System.out.println("Starting position of one occurence is "+pos13);
+						System.out.println("Starting position of another occurence is "+task3.getPos2());
+					}
+					break;			
 				
 				}
 				
@@ -114,7 +119,13 @@ public class Main {
 					System.out.println(errorMessage);
 					break;
 				}
-				System.out.println("LCS results should be displayed here");
+				FileInput four1 = new FileInput(args[1]);
+				FileInput four2 = new FileInput(args[2]);
+				byte[] s41 = four1.readFile();
+				byte[] s42 = four2.readFile();
+				SuffixTree tree4 = new SuffixTree(s41,s42);
+				SuffixTreeAppl appl4 = new SuffixTreeAppl(tree4);
+				Task3Info task4=appl4.traverseForLrs();
 				break;
 			}
 			default: System.out.println(errorMessage+"trigger2");
