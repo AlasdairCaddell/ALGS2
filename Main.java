@@ -16,7 +16,7 @@ public class Main {
 	
 	
 	public static SuffixTreeAppl helper(String file) {
-		FileInput one = new FileInput("file");
+		FileInput one = new FileInput(file);
 		byte[] s = one.readFile();
 		SuffixTree tree = new SuffixTree(s);
 		SuffixTreeAppl appl = new SuffixTreeAppl(tree);
@@ -42,9 +42,9 @@ public class Main {
 				SuffixTreeAppl sTree = helper(args[1]);
 				Task1Info task1=sTree.searchSuffixTree(args[2].getBytes());
 				if(task1.getPos()<0) {
-					System.out.println("Search string \""+args[1]+"\" not found in "+args[2] );
+					System.out.println("Search string \""+args[2]+"\" not found in "+args[1] );
 				}else {
-					System.out.println("Search string \""+args[1]+"\" found in "+args[2] );
+					System.out.println("Search string \""+args[2]+"\" occurs at position "+task1.getPos()+"of "+args[1] );
 
 				}
 			case "SearchAll": {

@@ -43,41 +43,44 @@ public class SuffixTreeAppl {
 		SuffixTreeNode current, next;
 		pos = 0;  // position in s
 		current = t.getRoot();
+		int len=x.length;
 		
 		while (true) {
-			// search for child of current with left label x such that t[x]==t[pos]
-					next = t.searchList(current.getChild(), x[pos]);
+			// search for child of current with left label x such that s[x]==s[pos]
+			next = t.searchList(current.getChild(), x[pos]);
+
+			if (next == null) {
 				
-					if (next == null) {
-						//task1Info.setPos(-1);
-						return task1Info;
+				break;
+			}
+			else {
+				// try to match s[node.getLeftLabel()+1..node.getRightLabel()] with 
+				// segment of s starting at position pos+1
+				j = next.getLeftLabel() + 1;
+				k = pos + 1;
+
+				while (j <= next.getRightLabel()) {
+					if (t.getString()[j]==x[k]) {
+						j++;
+						k++;
 					}
-					else {
-						j = current.getLeftLabel() + 1; //next char
-						k = pos + 1; //next string letter
-						while (j <= next.getRightLabel()) {
-							if (t.getString()[j] == x[k]) {
-								if(pos>=x.length) {
-									task1Info.setPos(j-x.length);
-									task1Info.setMatchNode(next);
-								}
-								j++;
-								k++;
-							}else {
-								break;
-							}
-							if (j > next.getRightLabel()) {
-								// succeeded in matching whole segment, so go further down tree
-								pos = k;
-								current = next;
-							}
-							
-						}
-					}
-	
-			
-			
-			break;
+					else
+						break;
+				}
+				if (k >= len) {
+					task1Info.setMatchNode(next);
+					task1Info.setPos(j-len);
+					break;
+				}
+				if (j > next.getRightLabel()) {
+					// succeeded in matching whole segment, so go further down tree
+					pos = k;
+					current = next;
+				}
+				else {
+					break;
+				}
+			}
 		}
 		return task1Info;
 	}
