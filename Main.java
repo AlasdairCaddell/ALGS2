@@ -24,6 +24,7 @@ public class Main {
 	}
 	
 	
+	
 	public static void main(String args[]) {
 	        String errorMessage = "Required syntax:\n";
                 errorMessage += "  java Main SearchOne <filename> <query string> for Task 1\n";
@@ -32,34 +33,83 @@ public class Main {
                 errorMessage += "  java Main LCS <filename1> <filename2> for Task 4";
 
 		if (args.length < 2)
-			System.out.println(errorMessage);
+			System.out.println(errorMessage+"trigger");
 		else {
 			// get the command from the first argument
 			String command = args[0];
 
 			switch (command) {
-			case "SearchOne":
-				SuffixTreeAppl sTree = helper(args[1]);
-				Task1Info task1=sTree.searchSuffixTree(args[2].getBytes());
-				if(task1.getPos()<0) {
-					System.out.println("Search string \""+args[2]+"\" not found in "+args[1] );
-				}else {
-					System.out.println("Search string \""+args[2]+"\" occurs at position "+task1.getPos()+"of "+args[1] );
-
-				}
-			case "SearchAll": {
-			        if (args.length < 3) {
+				case "SearchOne": {
+					if (args.length < 3) {
 				        System.out.println(errorMessage);
+			        }
+					SuffixTreeAppl sTree1 = helper(args[1]);
+					Task1Info task1=sTree1.searchSuffixTree(args[2].getBytes());
+					if(task1.getPos()<0) {
+						System.out.println("Search string \""+args[2]+"\" not found in "+args[1] );
+					}else {
+						System.out.println("Search string \""+args[2]+"\" occurs at position "+task1.getPos()+" of "+args[1] );
+					}
 					break;
 				}
-				System.out.println("Search results should be displayed here");
-				break;
-			}
-			case "LRS": {
-				System.out.println("LRS results should be displayed here");
-				break;
-			}
-			case "LCS": {
+				
+				
+				
+				
+				case "SearchAll": {
+			        if (args.length < 3) {
+				        System.out.println(errorMessage);
+			        }
+				    SuffixTreeAppl sTree2 = helper(args[1]);
+					Task2Info task2=sTree2.allOccurrences(args[2].getBytes());
+					if(task2.getPositions().isEmpty()) {
+						System.out.println("Search string \""+args[2]+"\" not found in "+args[1] );
+					}else {
+						System.out.println("Search string \""+args[2]+"\" occurs in "+args[1]+" at positions:" );
+						int i=0;
+						while(!task2.getPositions().isEmpty()) {
+							System.out.println(task2.getPositions().pop());
+							i++;
+						}
+						System.out.println("The total number of occurrences is "+i);
+						
+					}
+					break;
+				}
+				
+				
+				
+				
+				
+				case "LRS": {	
+					FileInput three = new FileInput(args[1]);
+					byte[] s3 = three.readFile();
+					SuffixTree tree3 = new SuffixTree(s3);
+					SuffixTreeAppl appl3 = new SuffixTreeAppl(tree3);
+					Task3Info task3=appl3.traverseForLrs();
+					
+					
+					System.out.println("An LRS in "+args[1]+" is \"");
+					int len3 =task3.getLen();
+					int pos13 = task3.getPos1();
+					for(int i=0;i<len3;i++) {
+						System.out.print((char)s3[pos13+i]);
+					}
+					System.out.print("\"\n");
+					
+					System.out.println("Its length is "+len3);
+					System.out.println("Starting position of one occurence is "+pos13);
+					System.out.println("Starting position of another occurence is "+task3.getPos2());
+					
+					break;
+				
+				}
+				
+				
+				
+				
+				
+				case "LCS": {
 				if (args.length < 3) {
 					System.out.println(errorMessage);
 					break;
@@ -67,7 +117,7 @@ public class Main {
 				System.out.println("LCS results should be displayed here");
 				break;
 			}
-			default: System.out.println(errorMessage);
+			default: System.out.println(errorMessage+"trigger2");
 			}
 		}
 	}

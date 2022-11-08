@@ -1,5 +1,5 @@
 package SuffixTreePackage;
-
+import java.util.*;
 /**
  * Class with methods for carrying out applications of suffix trees
  * @author David Manlove
@@ -98,9 +98,35 @@ public class SuffixTreeAppl {
 	 * @return a Task2Info object
 	 */
 	public Task2Info allOccurrences(byte[] x) {
+		
+		
+		Task1Info task1Info = searchSuffixTree(x);
+		if(task1Info.getPos()==-1) {
+			return new Task2Info(); 
+		}
+		Task2Info task2Info = new Task2Info();
+		
+		SuffixTreeNode current;
+		current=task1Info.getMatchNode().getChild();
+		if(current!=null) {
+			t2recursive(task2Info, current);
+		}
+		return task2Info; 
 
-		return null; // replace with your code!
 	}
+	public void t2recursive(Task2Info task2Info, SuffixTreeNode current) {
+		if (current!=null){
+			if(current.getSuffix()==-1) {
+				t2recursive(task2Info,current.getChild());
+			}else {
+				task2Info.addEntry(current.getSuffix());
+			}
+			t2recursive(task2Info,current.getSibling());
+		}
+		
+	}
+
+	
 
 	/**
 	 * Traverses suffix tree t representing string s and stores ln, p1 and
@@ -113,8 +139,31 @@ public class SuffixTreeAppl {
 	 * @return a Task3Info object
 	 */
 	public Task3Info traverseForLrs () {
+		Task3Info task3Info = new Task3Info();
+		SuffixTreeNode current=t.getRoot();
+		if(current.getChild()!=null) {
+			t3recursive(task3Info,current);
+		}
 		
-		return null; // replace with your code!
+		return task3Info;
+	}
+	
+	public void t3recursive(Task3Info task3Info, SuffixTreeNode current) {
+		SuffixTreeNode next=current.getChild(),sibling=current.getSibling();
+		if(next!=null) {
+			t3recursive(task3Info,next);
+		}else {int len =current.getLeftLabel()-current.getSuffix();
+				if(sibling !=null) {
+					if(len>task3Info.getLen()) {
+						task3Info.setLen(len);
+						task3Info.setPos1(current.getSuffix());
+						task3Info.setPos2(sibling.getSuffix());
+					}
+				}
+		}
+		if (sibling!=null) {
+			t3recursive(task3Info,sibling);
+		}	
 	}
 
 	/**
