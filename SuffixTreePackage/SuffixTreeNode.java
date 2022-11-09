@@ -38,7 +38,7 @@ public class SuffixTreeNode {
 	/** Suffix number represented by this node 
 	 *  >=0 for leaf nodes; -1 for branch nodes
 	 */
-	private int suffix;
+	private int suffix;//position
 
         /** Boolean indicating whether there is a descendant leaf node whose suffix number starts 
          *  in the first string (valid for Longest Common Substring computations only)

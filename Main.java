@@ -125,7 +125,27 @@ public class Main {
 				byte[] s42 = four2.readFile();
 				SuffixTree tree4 = new SuffixTree(s41,s42);
 				SuffixTreeAppl appl4 = new SuffixTreeAppl(tree4);
-				Task3Info task4=appl4.traverseForLrs();
+				Task4Info task4=appl4.traverseForLcs(s41.length);
+				
+				int len4 =task4.getLen();
+				int pos14 = task4.getPos1();
+				int pos24 = task4.getPos2();
+				
+				if(len4<=0) {
+					System.out.println("No LCS of "+args[1]+" and "+args[2]);
+				}
+				else {
+					System.out.print("An LCS of "+args[1]+" and "+args[2]+" is \"");
+			
+					for(int i=0;i<len4;i++) {
+						System.out.print((char)s41[pos14+i]);
+					}
+					System.out.print("\"\n");
+				
+					System.out.println("Its length is "+len4);
+					System.out.println("Starting position in "+args[1]+" is "+pos14);
+					System.out.println("Starting position in "+args[2]+" is "+pos24);
+				}
 				break;
 			}
 			default: System.out.println(errorMessage+"trigger2");

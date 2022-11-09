@@ -46,7 +46,16 @@ public class SuffixTree {
 	 * - assumes that characters of sInput1 and sInput2 occupy positions 0 onwards
 	 */
 	public SuffixTree (byte[] sInput1, byte[] sInput2) {
-         // to be completed!
+		root = new SuffixTreeNode(null, null, 0, 0, -1);  // create root node of suffix tree;
+		int l1 = sInput1.length;
+		int l2 = sInput2.length;
+		stringLen =l1+l2 +1;
+		s = new byte[stringLen + 1];
+		System.arraycopy(sInput1, 0, s, 0, l1);
+		s[l1] = (byte) '#';
+		System.arraycopy(sInput1, 0, s, l1, l2);
+		s[stringLen] = (byte) '$';
+		buildSuffixTree();   
 	}
 
 	/**

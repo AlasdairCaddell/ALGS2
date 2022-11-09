@@ -120,19 +120,17 @@ public class SuffixTreeAppl {
 	}
 	
 	public void t2recursive(Task2Info task2Info, SuffixTreeNode current) {
-		if (current!=null){
-			//check if branch then continue
-			if(current.getSuffix()==-1) {
-				t2recursive(task2Info,current.getChild());
-				
-			}else {
-				//if not a branch add position to the linked list
-				task2Info.addEntry(current.getSuffix());
-			}
-			//continue for siblings
+		SuffixTreeNode next=current.getChild(),sibling=current.getSibling();
+		if(next!=null) {
+			t2recursive(task2Info,next);
+		}else {
+			//if not a branch add position to the linked list
+			task2Info.addEntry(current.getSuffix());
+		}
+		//continue for siblings
+		if(sibling!=null) {
 			t2recursive(task2Info,current.getSibling());
 		}
-		
 	}
 
 	
@@ -151,31 +149,36 @@ public class SuffixTreeAppl {
 	public Task3Info traverseForLrs () {
 		Task3Info task3Info = new Task3Info();
 		SuffixTreeNode current=t.getRoot();
-		
+		int len=0;
 		//empty tree check
 		if(current.getChild()!=null) {
-			t3recursive(task3Info,current);
+			t3recursive(task3Info,current,len);
 		}
 		
 		return task3Info;
 	}
 	
 	
-	public void t3recursive(Task3Info task3Info, SuffixTreeNode current) {
+	public void t3recursive(Task3Info task3Info, SuffixTreeNode current,int len) {
 		SuffixTreeNode next=current.getChild(),sibling=current.getSibling();
 		
+		
+		
+		
 		if(next!=null) {
-			t3recursive(task3Info,next);
+			//move down p keeping track of current length
+			t3recursive(task3Info,next,len+current.getRightLabel()-current.getLeftLabel()+1);
 		}else {
-			//System.out.println("suffix"+current.getSuffix());
+			
 			//System.out.println("gll"+current.getLeftLabel());
 				//check if repeated if so its valid
 				if(sibling !=null) {
-								//the miracle line
-					int len =current.getLeftLabel()-current.getSuffix();
+					
 					//overwrite old longest
-					if(len>task3Info.getLen()) {
-						task3Info.setLen(len);
+					if(task3Info.getLen()<=len-1) {
+						//
+						task3Info.setLen(len-1);
+						
 						task3Info.setPos1(current.getSuffix());
 						task3Info.setPos2(sibling.getSuffix());
 					}
@@ -183,7 +186,7 @@ public class SuffixTreeAppl {
 		}
 		//check sibling 
 		if (sibling!=null) {
-			t3recursive(task3Info,sibling);
+			t3recursive(task3Info,sibling,len);
 		}	
 	}
 
@@ -206,21 +209,50 @@ public class SuffixTreeAppl {
 		SuffixTreeNode current=t.getRoot();
 		
 		
-		//empty tree check
+		//empty tree check.
 		if(current.getChild()!=null) {
-			t4recursive(task4Info,current);
+			t4recursive(task4Info,current,0,s1Length);
 		}
 		return task4Info; 
 	}
 	
 	
-	public void t4recursive(Task4Info task4Info,SuffixTreeNode current) {
+	public void t4recursive(Task4Info task4Info, SuffixTreeNode current,int len,int s1Length) {
 		SuffixTreeNode next=current.getChild(),sibling=current.getSibling();
 		
-		
-		
-	}
-		
-		
-		
+		//branch v
+		if(current.getSuffix()==-1) {
+		//bi(v)
+			if (current.getLeafNodeString1()) {
+				task4Info.setString1Leaf(true);
+			}if(current.getLeafNodeString2()) {
+				task4Info.setString2Leaf(true);
+			}
+		}
+
+		if(next!=null) {
+			//move down
+			t4recursive(task4Info,next,len+current.getRightLabel()-current.getLeftLabel()+1,s1Length);		
+		}else {
+			
+			//System.out.println("gll"+current.getLeftLabel());
+				//b1(v)and b2(v)
+				if(task4Info.getString1Leaf() && task4Info.getString2Leaf()) {
+								
+					//common so overwrite old longest
+					if(task4Info.getLen()<=len-1) {
+						task4Info.setLen(len-1);
+						
+						//task4Info.setPos1(current.getSuffix());
+						//task4Info.setPos2(sibling.getSuffix());
+					}
+
+				}
+		}
+		//check sibling 
+		if (sibling!=null) {
+			
+			t4recursive(task4Info,sibling,len,s1Length);
+		}	
+	}	
 }
